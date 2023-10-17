@@ -9,7 +9,7 @@ import java.util.UUID;
  * Created by jt on 2019-04-20.
  */
 @Service
-public class BeerServiceImpl implements BeerService {
+public class DefaultBeerService implements BeerService {
     @Override
     public BeerDto getBeerById(UUID beerId) {
         return BeerDto.builder().id(UUID.randomUUID())
