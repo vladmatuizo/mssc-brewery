@@ -3,14 +3,12 @@ package guru.springframework.msscbrewery.web.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import guru.springframework.msscbrewery.services.BeerService;
 import guru.springframework.msscbrewery.web.model.BeerDto;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.UUID;
@@ -27,7 +25,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(SpringRunner.class)
 @WebMvcTest(BeerController.class)
 public class CustomerControllerTest {
     @MockBean
@@ -38,7 +35,7 @@ public class CustomerControllerTest {
     ObjectMapper objectMapper;
     BeerDto validBeer;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         this.validBeer = BeerDto.builder()
                 .id(UUID.randomUUID())
@@ -54,7 +51,7 @@ public class CustomerControllerTest {
         mockMvc.perform(get(String.format("/api/v1/beer/%s", validBeer.getId().toString()))
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id", is(validBeer.getId().toString())))
                 .andExpect(jsonPath("$.beerName", is("Beer1")));
     }
