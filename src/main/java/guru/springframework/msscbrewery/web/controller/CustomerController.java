@@ -1,7 +1,8 @@
 package guru.springframework.msscbrewery.web.controller;
 
-import guru.springframework.msscbrewery.services.BeerService;
-import guru.springframework.msscbrewery.web.model.BeerDto;
+import guru.springframework.msscbrewery.services.CustomerService;
+import guru.springframework.msscbrewery.web.model.CustomerDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,44 +18,36 @@ import org.springframework.web.bind.annotation.RestController;
 import java.net.URI;
 import java.util.UUID;
 
-/**
- * Created by jt on 2019-04-20.
- */
-@RequestMapping("/api/v1/beer")
+@RequestMapping("/api/v1/customer")
 @RestController
-public class BeerController {
+@RequiredArgsConstructor
+public class CustomerController {
 
-    private final BeerService beerService;
+    private final CustomerService customerService;
 
-    public BeerController(BeerService beerService) {
-        this.beerService = beerService;
-    }
-
-    @GetMapping("/{beerId}")
-    public ResponseEntity<BeerDto> getBeer(@PathVariable UUID beerId){
-        return new ResponseEntity<>(beerService.getBeerById(beerId), HttpStatus.OK);
+    @GetMapping("/{id}")
+    public ResponseEntity<CustomerDto> getCustomer(@PathVariable UUID id){
+        return ResponseEntity.ok(customerService.getById(id));
     }
 
     @PostMapping
-    public ResponseEntity<?> createBeer(@RequestBody BeerDto beerDto) {
-        final BeerDto savedBeer = beerService.create(beerDto);
+    public ResponseEntity<?> createCustomer(@RequestBody CustomerDto CustomerDto) {
+        final CustomerDto savedCustomer = customerService.create(CustomerDto);
         return ResponseEntity
-                .created(URI.create(String.format("/api/v1/beer/%s", savedBeer.getId().toString())))
+                .created(URI.create(String.format("/api/v1/customer/%s", savedCustomer.getId().toString())))
                 .build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateBeer(@PathVariable UUID id, @RequestBody BeerDto beerDto) {
-        beerService.update(id, beerDto);
+    public ResponseEntity<?> updateCustomer(@PathVariable UUID id, @RequestBody CustomerDto CustomerDto) {
+        customerService.update(id, CustomerDto);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteBeer(@PathVariable UUID id) {
-        beerService.delete(id);
+    public void deleteCustomer(@PathVariable UUID id) {
+        customerService.delete(id);
     }
-
-
 
 }
