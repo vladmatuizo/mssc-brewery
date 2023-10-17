@@ -17,4 +17,19 @@ public class DefaultBeerService implements BeerService {
                 .beerStyle("Pale Ale")
                 .build();
     }
+
+    @Override
+    public BeerDto create(final BeerDto beerDto) {
+        return beerDto;
+    }
+
+    @Override
+    public void update(final UUID id, final BeerDto beerDto) {
+
+    }
+
+    @Override
+    public void delete(final UUID id) {
+
+    }
 }
