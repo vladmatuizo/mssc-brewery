@@ -57,7 +57,7 @@ public class BeerControllerV2 {
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<?> validationErrorHandler(ConstraintViolationException ex) {
+    public ResponseEntity<List<String>> validationErrorHandler(ConstraintViolationException ex) {
         final List<String> errors = ex.getConstraintViolations().stream()
                 .map(ConstraintViolation::getMessage)
                 .collect(Collectors.toList());
