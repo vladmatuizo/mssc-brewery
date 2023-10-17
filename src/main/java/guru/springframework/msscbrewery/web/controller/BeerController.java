@@ -2,6 +2,7 @@ package guru.springframework.msscbrewery.web.controller;
 
 import guru.springframework.msscbrewery.services.BeerService;
 import guru.springframework.msscbrewery.web.model.BeerDto;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -36,8 +37,8 @@ public class BeerController {
         return new ResponseEntity<>(beerService.getBeerById(beerId), HttpStatus.OK);
     }
 
-    @PostMapping
-    public ResponseEntity<?> createBeer(@RequestBody BeerDto beerDto) {
+    @PostMapping("/")
+    public ResponseEntity<?> createBeer(@Valid @RequestBody BeerDto beerDto) {
         final BeerDto savedBeer = beerService.create(beerDto);
         return ResponseEntity
                 .created(URI.create(String.format("/api/v1/beer/%s", savedBeer.getId().toString())))
@@ -45,7 +46,7 @@ public class BeerController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateBeer(@PathVariable UUID id, @RequestBody BeerDto beerDto) {
+    public ResponseEntity<?> updateBeer(@PathVariable UUID id, @Valid @RequestBody BeerDto beerDto) {
         beerService.update(id, beerDto);
         return ResponseEntity.noContent().build();
     }
