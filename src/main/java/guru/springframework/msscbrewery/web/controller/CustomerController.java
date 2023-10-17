@@ -55,12 +55,4 @@ public class CustomerController {
     public void deleteCustomer(@PathVariable UUID id) {
         customerService.delete(id);
     }
-
-    @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<List<String>> handleValidationError(ConstraintViolationException e) {
-        final List<String> errors = e.getConstraintViolations().stream()
-                .map(ConstraintViolation::getMessage)
-                .collect(Collectors.toList());
-        return ResponseEntity.badRequest().body(errors);
-    }
 }
