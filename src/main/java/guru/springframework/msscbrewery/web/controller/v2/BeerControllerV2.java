@@ -1,7 +1,8 @@
-package guru.springframework.msscbrewery.web.controller;
+package guru.springframework.msscbrewery.web.controller.v2;
 
-import guru.springframework.msscbrewery.services.BeerService;
-import guru.springframework.msscbrewery.web.model.BeerDto;
+import guru.springframework.msscbrewery.services.v2.BeerServiceV2;
+import guru.springframework.msscbrewery.web.model.v2.BeerDtoV2;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,35 +18,28 @@ import org.springframework.web.bind.annotation.RestController;
 import java.net.URI;
 import java.util.UUID;
 
-/**
- * Created by jt on 2019-04-20.
- */
-@Deprecated
-@RequestMapping("/api/v1/beer")
+@RequestMapping("/api/v2/beer")
 @RestController
-public class BeerController {
+@RequiredArgsConstructor
+public class BeerControllerV2 {
 
-    private final BeerService beerService;
-
-    public BeerController(BeerService beerService) {
-        this.beerService = beerService;
-    }
+    private final BeerServiceV2 beerService;
 
     @GetMapping("/{beerId}")
-    public ResponseEntity<BeerDto> getBeer(@PathVariable UUID beerId){
+    public ResponseEntity<BeerDtoV2> getBeer(@PathVariable UUID beerId){
         return new ResponseEntity<>(beerService.getBeerById(beerId), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<?> createBeer(@RequestBody BeerDto beerDto) {
-        final BeerDto savedBeer = beerService.create(beerDto);
+    public ResponseEntity<?> createBeer(@RequestBody BeerDtoV2 beerDto) {
+        final BeerDtoV2 savedBeer = beerService.create(beerDto);
         return ResponseEntity
                 .created(URI.create(String.format("/api/v1/beer/%s", savedBeer.getId().toString())))
                 .build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateBeer(@PathVariable UUID id, @RequestBody BeerDto beerDto) {
+    public ResponseEntity<?> updateBeer(@PathVariable UUID id, @RequestBody BeerDtoV2 beerDto) {
         beerService.update(id, beerDto);
         return ResponseEntity.noContent().build();
     }
